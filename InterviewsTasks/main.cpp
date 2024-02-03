@@ -61,7 +61,7 @@ namespace Numbers
 
     void ReverseNumber()
     {
-        for (const auto [num, expected]: std::vector<std::pair<int, int>> {
+        for (const auto& [num, expected]: std::vector<std::pair<int, int>> {
                 {123,321},
                 {-123,-321}
         })
@@ -71,15 +71,53 @@ namespace Numbers
     }
 }
 
+namespace Strings
+{
+    int find(const std::string& haystack, const std::string& needle)
+    {
+        const int textSize = std::ssize(haystack), searchBlockSize = std::ssize(needle);
+        for (int idx = 0, m = 0, n = 0; idx <= textSize - searchBlockSize; ++idx)
+        {
+            for (m = 0, n = idx; m < searchBlockSize; ++m, ++n) {
+                if (needle[m] != haystack[n])
+                    break;
+            }
+            if (m == searchBlockSize)
+                return idx;
+        }
+        return -1;
+    }
+
+    void FindSubString()
+    {
+        for (const auto& [values, expected] : std::vector<std::pair<std::pair<std::string, std::string>,int>> {
+                {{"aaabbbccc", "bbb"}, 3},
+                {{"aaabbbccc", "ddd"}, -1},
+                {{"aaa", "aaaa"}, -1},
+                {{"", ""}, 0},
+                {{"baabaa", "aa"}, 1},
+        })
+        {
+            int pos = find(values.first, values.second);
+            if (pos != expected)
+                std::cerr << "Error: (" << values.first << ", " << values.second << ") != " << expected << std::endl;
+        }
+
+        std::cout << "All passed\n";
+    }
+}
+
+
 
 int main([[maybe_unused]] int argc,
          [[maybe_unused]] char** argv)
 {
     const std::vector<std::string_view> args(argv + 1, argv + argc);
 
-    // ::GreatestCommonDivisor();
-    Numbers::ReverseNumber();
+    // Numbers::GreatestCommonDivisor();
+    // Numbers::ReverseNumber();
 
+    Strings::FindSubString();
 
     return EXIT_SUCCESS;
 }
