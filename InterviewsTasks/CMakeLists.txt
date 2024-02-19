@@ -10,6 +10,7 @@ add_compile_options(-c -Wall -Wextra -O3 -std=c++23)
 # include all components
 add_executable(${PROJECT_NAME}
         main.cpp
+        StringUtilities.cpp StringUtilities.h
 )
 
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
